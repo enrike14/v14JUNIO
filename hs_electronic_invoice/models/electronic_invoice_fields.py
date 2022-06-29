@@ -306,7 +306,6 @@ class electronic_invoice_fields(models.Model):
                          str(respuesta["detail"]))
 
     def send_fiscal_doc(self):
-        url = self.hsfeURLstr + "api/send"
         original_invoice_values = {}
         retencion = {}
         original_invoice_id = self.env["account.move"].search(
@@ -330,6 +329,7 @@ class electronic_invoice_fields(models.Model):
             self.puntoFacturacion = config_document_obj.puntoFacturacionFiscal
             varhsfeURLstr = config_document_obj.hsfeURL
             self.hsfeURLstr = config_document_obj.hsfeURL
+
         url = varhsfeURLstr + "api/send"
 
         precioDescuento = '0'
