@@ -87,8 +87,7 @@ class PosOrder(models.Model):
 
         return act_window
 
-
-"""     @api.model
+    @api.model
     def create_from_ui(self, orders, draft=False):
         order_list = super(PosOrder, self).create_from_ui(orders, draft=draft)
         cufe = self.browse(order_list[0].get('id')).CAFE
@@ -99,4 +98,4 @@ class PosOrder(models.Model):
         order_list[0]["qr_str"] = qr_str
         order_list[0]["include_pos"] = include_pos
 
-        return order_list """
+        return order_list
