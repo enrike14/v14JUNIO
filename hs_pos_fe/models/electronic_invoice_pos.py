@@ -99,4 +99,6 @@ class PosOrder(models.Model):
         order_list[0]["qr_str"] = qr_str
         order_list[0]["include_pos"] = include_pos
 
+        logging.info("FROM UI::::::::::" + str(order_list[0]["include_pos"]))
+
         return order_list
