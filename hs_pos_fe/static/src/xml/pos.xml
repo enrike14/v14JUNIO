@@ -3,16 +3,6 @@
 <templates id="template" xml:space="preserve">
 
 
-    <t t-name="ReceiptScreen" t-extend="ReceiptScreen">
-        <t t-jquery=".pos-receipt-container" t-operation="before">
-            <div class="button printfe">
-                <i class='fa fa-print'></i>
-                Imprimir Factura Fiscal PDF
-            </div>
-        </t>
-    </t>
-
-
     <t t-extend="OrderReceipt">
 
 
