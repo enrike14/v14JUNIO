@@ -42,6 +42,26 @@ class PosOrder(models.Model):
     def _generate_pos_order_invoice(self):
         logging.info("ENTRÖ AL ACTION POR LO MENOS::::::::::POS ORDER")
         act_window = super(PosOrder, self)._generate_pos_order_invoice()
+        for order in self:
+            if order.account_move and order.account_move.move_type == 'out_invoice':
+
+                # constultamos el objeto de nuestra configuración del servicio
+                config_document_obj = self.env["electronic.invoice"].search(
+                    [('name', '=', 'ebi-pac')], limit=1)
+                if config_document_obj:
+                    isPos = config_document_obj.pos_module
+                    order.include_pos = str(isPos)
+                logging.info(isPos)
+                if str(isPos) == 'True':
+                    order.account_move.send_fiscal_doc()
+                    time.sleep(4)
+
+                    self.generate_qr(order.account_move.qr_pos)
+                    order.CAFE = str(order.account_move.cafe)
+                    order.qr_str = str(order.account_move.qr_pos)
+
+        return act_window
+
         return act_window
 
     def action_pos_order_invoice(self):
