@@ -1,3 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<templates id="template" xml:space="preserve"></templates>
+<templates id="template" xml:space="preserve">
+
+
+    <t t-name="ReceiptScreenWidget" t-extend="ReceiptScreenWidget">
+        <t t-jquery=".pos-receipt-container" t-operation="before">
+            <div class="button printfe">
+                <i class='fa fa-print'></i>
+                Imprimir Factura Fiscal PDF
+            </div>
+        </t>
+    </t>
+
+
+</templates>
