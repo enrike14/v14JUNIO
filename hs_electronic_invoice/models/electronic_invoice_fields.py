@@ -328,8 +328,9 @@ class electronic_invoice_fields(models.Model):
             codigoSucursal = config_document_obj.codigoSucursalEmisor
             url_wsdl = config_document_obj.wsdl
             self.puntoFacturacion = config_document_obj.puntoFacturacionFiscal
+            varhsfeURLstr = config_document_obj.hsfeURL
             self.hsfeURLstr = config_document_obj.hsfeURL
-        url = self.hsfeURLstr + "api/send"
+        url = varhsfeURLstr + "api/send"
 
         precioDescuento = '0'
         for item in self.invoice_line_ids:
