@@ -89,6 +89,7 @@ class PosOrder(models.Model):
 
     @api.model
     def create_from_ui(self, orders, draft=False):
+        logging.info("FROM UI::::::::::")
         order_list = super(PosOrder, self).create_from_ui(orders, draft=draft)
         cufe = self.browse(order_list[0].get('id')).CAFE
         qr_str = self.browse(order_list[0].get('id')).qr_str
