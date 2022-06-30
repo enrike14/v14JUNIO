@@ -11,10 +11,12 @@ odoo.define("pos_fe.models", function (require) {
         function (value) {
           console.log(value);
           try {
-            localStorage.setItem("cufe", value[0].CAFE);
-            localStorage.setItem("qr_code", value[0].qr_str);
-            localStorage.setItem("id", value[0].id);
-            localStorage.setItem("is_pos", value[0].include_pos);
+            if (value[0].CAFE) {
+              localStorage.setItem("cufe", value[0].CAFE);
+              localStorage.setItem("qr_code", value[0].qr_str);
+              localStorage.setItem("id", value[0].id);
+              localStorage.setItem("is_pos", value[0].include_pos);
+            }
           } catch (error) {
             console.error(error);
           }

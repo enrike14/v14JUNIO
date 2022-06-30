@@ -28,13 +28,13 @@
 
 
         <xpath expr="//div[hasclass('pos-receipt-order-data')]" position="inside">
-            <t t-if='receipt.receipt_render_env..get("is_pos") == "True"'>
+            <t t-if='receipt.receipt_render_env.get("is_pos") == "True"'>
                 <br />
                 <div>Consulte en https://fe.dgi.mef.gob.pa/consulta usando el CUFE:</div>
                 <br />
 
                 <div>
-                    <t t-esc='receipt.receipt_render_env..get("cufe")' />
+                    <t t-esc='receipt.receipt_render_env.get("cufe")' />
                 </div>
 
                 <br />
@@ -42,7 +42,7 @@
                 <br />
                 <div>
                     <t t-if='receipt.company.logo'>
-                        <img class="pos-receipt-logo" t-att-src='receipt.receipt_render_env..get("qr_img")' />
+                        <img class="pos-receipt-logo" t-att-src='receipt.receipt_render_env.get("qr_img")' />
                         <br />
                     </t>
                 </div>
