@@ -8,7 +8,8 @@
         <xpath expr="//div[hasclass('pos-receipt')]/t[1]" position="before">
             <br />
             <br />
-            <t t-if='receipt.receipt_render_env().is_pos == "True"'>
+            <t t-set="fe" t-value="receipt.receipt_render_env" />
+            <t t-if='fe.is_pos == "True"'>
                 <div class="pos-receipt-custom-text">
                 Comprobante Auxiliar de Factura Electrónica            
                 </div>
@@ -28,7 +29,8 @@
 
 
         <xpath expr="//div[hasclass('pos-receipt-order-data')]" position="inside">
-            <t t-if='receipt.receipt_render_env().is_pos == "True"'>
+            <t t-set="fe" t-value="receipt.receipt_render_env" />
+            <t t-if='fe["is_pos"] == "True"'>
                 <br />
                 <div>Consulte en https://fe.dgi.mef.gob.pa/consulta usando el CUFE:</div>
                 <br />
