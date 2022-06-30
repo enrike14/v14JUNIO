@@ -6,10 +6,49 @@
     <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
 
         <xpath expr="//div[hasclass('pos-receipt')]/t[1]" position="before">
-            <div class="pos-receipt-custom-text">
+            <br />
+            <br />
+            <t t-if='receipt.receipt_render_env.is_pos == "True"'>
+                <div class="pos-receipt-custom-text">
                 Comprobante Auxiliar de Factura Electrónica            
-            </div>
+                </div>
+            </t>
         </xpath>
+
+
+        <!--         <xpath expr="//div[hasclass('pos-receipt-contact')]" position="inside">
+            <br />
+            <t t-if='receipt.client'>
+                <div>
+                    Cliente:
+                    <t t-esc='receipt.client' />
+                </div>
+            </t>
+        </xpath> -->
+
+
+        <xpath expr="//div[hasclass('pos-receipt-order-data')]" position="inside">
+            <t t-if='receipt.receipt_render_env.is_pos == "True"'>
+                <br />
+                <div>Consulte en https://fe.dgi.mef.gob.pa/consulta usando el CUFE:</div>
+                <br />
+
+                <div>
+                    <t t-esc='receipt.receipt_render_env.cufe' />
+                </div>
+
+                <br />
+                <div>o escaneando el código QR</div>
+                <br />
+                <div>
+                    <t t-if='receipt.company.logo'>
+                        <img class="pos-receipt-logo" t-att-src='receipt.receipt_render_env.qr_img' />
+                        <br />
+                    </t>
+                </div>
+            </t>
+        </xpath>
+
 
     </t>
 
