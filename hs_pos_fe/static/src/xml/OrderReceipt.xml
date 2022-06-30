@@ -3,15 +3,18 @@
 <templates id="template" xml:space="preserve">
 
 
-    <t t-extend="OrderReceipt" owl="1">
+    <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
 
+        <xpath expr="//t[1]" position="before">
+            <div class="pos-receipt-custom-text">
+                Comprobante Auxiliar de Factura Electrónica            
+            </div>
+        </xpath>
 
+        <!-- 
         <t t-jquery=".pos-receipt .pos-receipt-logo" t-operation='before'>
             <br />
-            <div class="pos-receipt-custom-text">
-                Comprobante Auxiliar de Factura Electrónica
-               
-            </div>
+
             <br />
             <t t-if='receipt.is_pos == "True"'></t>
 
@@ -48,7 +51,7 @@
                 </div>
             </t>
         </t>
-
+ -->
     </t>
 
 </templates>
