@@ -7,6 +7,7 @@ odoo.define("hs_pos_fe.order_receipt", function (require) {
   const feOrderReceipt = (OrderReceipt) =>
     class extends OrderReceipt {
       get receipt_render_env() {
+        console.log("RETURN VALES::::");
         return {
           cufe: localStorage.getItem("cufe"),
           qr_code: localStorage.getItem("qr_code"),
