@@ -8,13 +8,12 @@
 
         <t t-jquery=".pos-receipt .pos-receipt-logo" t-operation='before'>
             <br />
-            <t t-if='receipt.is_pos == "True"'>
-                <div class="pos-receipt-custom-text">
-                    Comprobante Auxiliar de Factura Electrónica
-                   
-                </div>
-                <br />
-            </t>
+            <div class="pos-receipt-custom-text">
+                Comprobante Auxiliar de Factura Electrónica
+               
+            </div>
+            <br />
+            <t t-if='receipt.is_pos == "True"'></t>
 
         </t>
 
