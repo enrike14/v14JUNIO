@@ -3,7 +3,7 @@
 <templates id="template" xml:space="preserve">
 
 
-    <t t-extend="OrderReceipt">
+    <t t-extend="OrderReceipt" owl="1">
 
 
         <t t-jquery=".pos-receipt .pos-receipt-logo" t-operation='before'>
