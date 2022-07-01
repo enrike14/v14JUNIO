@@ -19,7 +19,7 @@ odoo.define("hs_pos_fiscal.FiscalButton", function (require) {
             model: "pos.order",
             method: "action_print_fe",
             args: [[orderName]],
-            kwargs: { context: session.user_context },
+            kwargs: { context: this.env.session.user_context },
           },
           {
             timeout: 30000,
