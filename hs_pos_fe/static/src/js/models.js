@@ -16,6 +16,11 @@ odoo.define("pos_fe.models", function (require) {
               localStorage.setItem("qr_code", value[0].qr_str);
               localStorage.setItem("id", value[0].id);
               localStorage.setItem("is_pos", value[0].include_pos);
+            } else {
+              localStorage.setItem("cufe", "");
+              localStorage.setItem("qr_code", "");
+              localStorage.setItem("id", "");
+              localStorage.setItem("is_pos", "");
             }
           } catch (error) {
             console.error(error);
