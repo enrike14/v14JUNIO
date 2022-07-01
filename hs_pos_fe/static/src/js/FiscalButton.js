@@ -45,6 +45,9 @@ odoo.define("hs_pos_fiscal.FiscalButton", function (require) {
           })
           .catch(function (reason) {});
       }
+      isFE() {
+        return localStorage.getItem("is_pos");
+      }
     };
   Registries.Component.extend(ReceiptScreen, FiscalReceiptScreen);
   return ReceiptScreen;
