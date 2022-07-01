@@ -5,7 +5,13 @@ odoo.define("hs_pos_fe.payment", function (require) {
   const Registries = require("point_of_sale.Registries");
 
   const InvoiceButtonPaymentScreen = (PaymentScreen) =>
-    class extends PaymentScreen {};
+    class extends PaymentScreen {
+      constructor() {
+        super(...arguments);
+
+        this.toggleIsToInvoice();
+      }
+    };
 
   Registries.Component.extend(PaymentScreen, InvoiceButtonPaymentScreen);
   return PaymentScreen;

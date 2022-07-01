@@ -24,6 +24,7 @@
     # only loaded in demonstration mode
     "qweb": [
         "static/src/xml/OrderReceipt.xml",
+        "static/src/xml/FiscalButton.xml",
 
     ],
 }
