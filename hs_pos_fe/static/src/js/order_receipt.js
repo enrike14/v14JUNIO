@@ -6,17 +6,11 @@ odoo.define("hs_pos_fe.order_receipt", function (require) {
 
   const feOrderReceipt = (OrderReceipt) =>
     class extends OrderReceipt {
-      get fe_receipt_render() {
-        /*         return {
-          cufe: localStorage.getItem("cufe"),
-          qr_code: localStorage.getItem("qr_code"),
-          qr_img:
-            "/web/image?model=pos.order&id=" +
-            localStorage.getItem("id") +
-            "&field=qr_code",
-          is_pos: localStorage.getItem("is_pos"),
-        }; */
-        return true;
+      constructor() {
+        console.log("ENTRÖ:::::::::");
+        super(...arguments);
+
+        this._receiptEnv = this.props.order.getOrderReceiptEnv();
       }
     };
 
