@@ -9,7 +9,7 @@
             <br />
             <br />
 
-            <t t-if='receipt.fe_receipt_render'>
+            <t t-if='fe_receipt_render()'>
                 <div class="pos-receipt-custom-text">
                 Comprobante Auxiliar de Factura Electrónica            
                 </div>
