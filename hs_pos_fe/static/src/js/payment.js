@@ -11,6 +11,10 @@ odoo.define("hs_pos_fe.payment", function (require) {
 
         this.toggleIsToInvoice();
       }
+      toggleIsToInvoice() {
+        super.toggleIsToInvoice();
+        this.currentOrder.set_to_invoice(true);
+      }
     };
 
   Registries.Component.extend(PaymentScreen, InvoiceButtonPaymentScreen);
