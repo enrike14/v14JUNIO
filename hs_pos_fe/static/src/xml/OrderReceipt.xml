@@ -24,7 +24,7 @@
                 <br />
 
                 <div>
-                    <t t-esc='fe.cufe"' />
+                    <t t-esc='fe.cufe' />
                 </div>
 
                 <br />
