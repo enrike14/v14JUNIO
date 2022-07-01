@@ -12,7 +12,8 @@ odoo.define("hs_pos_fe.order_receipt", function (require) {
 
         // this._receiptEnv = this.props.order.getOrderReceiptEnv();
       }
-      get fe_receipt_render() {
+
+      fe_receipt_render() {
         console.log("ENTRÖ222222:::::::::");
         /*         return {
           cufe: localStorage.getItem("cufe"),
@@ -28,5 +29,5 @@ odoo.define("hs_pos_fe.order_receipt", function (require) {
     };
 
   Registries.Component.extend(OrderReceipt, feOrderReceipt);
-  return feOrderReceipt;
+  return OrderReceipt;
 });
