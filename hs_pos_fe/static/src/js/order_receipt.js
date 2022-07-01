@@ -1,7 +1,7 @@
 odoo.define("hs_pos_fe.order_receipt", function (require) {
   "use strict";
 
-  const OrderReceipt = require("point_of_sale.OrderReceipt");
+  var OrderReceipt = require("point_of_sale.OrderReceipt");
   const Registries = require("point_of_sale.Registries");
 
   const feOrderReceipt = (OrderReceipt) =>
