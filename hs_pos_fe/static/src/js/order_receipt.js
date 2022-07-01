@@ -13,8 +13,7 @@ odoo.define("hs_pos_fe.order_receipt", function (require) {
       }
 
       fe_receipt_render() {
-        console.log("ENTRÖ222222:::::::::");
-        /*         return {
+        return {
           cufe: localStorage.getItem("cufe"),
           qr_code: localStorage.getItem("qr_code"),
           qr_img:
@@ -22,8 +21,7 @@ odoo.define("hs_pos_fe.order_receipt", function (require) {
             localStorage.getItem("id") +
             "&field=qr_code",
           is_pos: localStorage.getItem("is_pos"),
-        }; */
-        return true;
+        };
       }
     };
 
