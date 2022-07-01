@@ -28,5 +28,5 @@ odoo.define("hs_pos_fe.order_receipt", function (require) {
     };
 
   Registries.Component.extend(OrderReceipt, feOrderReceipt);
-  return OrderReceipt;
+  return feOrderReceipt;
 });
