@@ -7,7 +7,7 @@ odoo.define("hs_pos_fe.order_receipt", function (require) {
   const feOrderReceipt = (OrderReceipt) =>
     class extends OrderReceipt {
       constructor() {
-        console.log("ENTRÖ:::::::::");
+        console.log(this);
         super(...arguments);
 
         // this._receiptEnv = this.props.order.getOrderReceiptEnv();
