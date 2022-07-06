@@ -645,6 +645,12 @@ class electronic_invoice_fields(models.Model):
                                 'amount': tax_item.amount,
                                 'group_tax_children': array_children
                             })
+                else:
+                    array_tax_item.append({
+                        'amount_type':	 'percent',
+                        'amount': '0'
+                    })
+
                 logging.info("array_tax_item:::::::::::::" +
                              str(array_tax_item))
                 itemLoad.append({
