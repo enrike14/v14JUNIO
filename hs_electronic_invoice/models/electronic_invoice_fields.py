@@ -624,6 +624,7 @@ class electronic_invoice_fields(models.Model):
                 if item.tax_ids:
                     for tax_item in item.tax_ids:
                         if tax_item.amount_type == 'percent':
+                            logging.info("VALOR DE ITMBS " + tax_item.amount)
                             array_tax_item.append({
                                 'amount_type':	tax_item.amount_type,
                                 'amount': tax_item.amount
@@ -643,7 +644,7 @@ class electronic_invoice_fields(models.Model):
                                 'amount': tax_item.amount,
                                 'group_tax_children': array_children
                             })
-
+                logging.info("array_tax_item:::::::::::::" + array_tax_item)
                 itemLoad.append({
                     'typeCustomers': str(self.partner_id.TipoClienteFE),
                     'categoriaProducto': str(item.product_id.categoryProduct) if item.product_id.categoryProduct else "",
