@@ -422,7 +422,7 @@ class electronic_invoice_fields(models.Model):
                         ":</b> ("+respuesta['mensaje']+")<br>"
                     self.message_post(body=body)
             else:
-                body = "Factura Electrónica No Generada:<br> <b style='color:red;'>Error:</b> (El tipo de cliente de factura no ha sido especificado, por favor asegurese de ingresar este valor.)<br>"
+                body = "Factura Electrónica No Generada:<br> <b style='color:red;'>Error:</b> (El tipo de cliente de factura electrónica, no ha sido especificado, por favor asegurese de ingresar este valor.)<br>"
                 self.message_post(body=body)
         else:
             body = "Factura Electrónica No Generada:<br> <b style='color:red;'>Error:</b> (El cliente no posee un correo electrónico, por favor asegurese de ingresar este valor.)<br>"
