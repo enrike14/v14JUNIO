@@ -369,53 +369,58 @@ class electronic_invoice_fields(models.Model):
         }
 
         logging.info("VALUES SEND" + str(all_values))
-        res = requests.request(
-            "POST", url, headers=headers, data=all_values)
 
-        respuesta = json.loads(res.text)
-        logging.info("RES" + str(respuesta))
+        if(self.partner_id.email):
+            res = requests.request(
+                "POST", url, headers=headers, data=all_values)
 
-        if(int(respuesta["codigo"]) == 200):
-            self.insert_data_to_electronic_invoice_moves(
-                respuesta, self.name)
-            self.pdfNumber = respuesta["numeroDocumentoFiscal"]
-            self.tipoDocPdf = respuesta["tipoDocumento"]
-            self.tipoEmisionPdf = respuesta["tipoEmision"]
+            respuesta = json.loads(res.text)
+            logging.info("RES" + str(respuesta))
 
-            tipo_doc_text = respuesta['mensaje']
+            if(int(respuesta["codigo"]) == 200):
+                self.insert_data_to_electronic_invoice_moves(
+                    respuesta, self.name)
+                self.pdfNumber = respuesta["numeroDocumentoFiscal"]
+                self.tipoDocPdf = respuesta["tipoDocumento"]
+                self.tipoEmisionPdf = respuesta["tipoEmision"]
 
-            if 'qr' in respuesta and 'cufe' in respuesta:
-                self.qr_pos = str(respuesta['qr'])
-                self.cafe = str(respuesta['cufe'])
-                tipo_doc_text = "Factura Electrónica Creada" + \
-                    " :<br> <b>CUFE:</b> (<a target='_blank' href='" + \
-                    respuesta['qr']+"'>"+str(respuesta['cufe'])+")</a><br>"
-                if self.tipo_documento_fe == "04":
-                    tipo_doc_text = "Nota de Crédito Creada" + \
+                tipo_doc_text = respuesta['mensaje']
+
+                if 'qr' in respuesta and 'cufe' in respuesta:
+                    self.qr_pos = str(respuesta['qr'])
+                    self.cafe = str(respuesta['cufe'])
+                    tipo_doc_text = "Factura Electrónica Creada" + \
                         " :<br> <b>CUFE:</b> (<a target='_blank' href='" + \
-                        respuesta['qr']+"'>" + \
-                        str(respuesta['cufe'])+")</a><br>"
+                        respuesta['qr']+"'>"+str(respuesta['cufe'])+")</a><br>"
+                    if self.tipo_documento_fe == "04":
+                        tipo_doc_text = "Nota de Crédito Creada" + \
+                            " :<br> <b>CUFE:</b> (<a target='_blank' href='" + \
+                            respuesta['qr']+"'>" + \
+                            str(respuesta['cufe'])+")</a><br>"
 
-            if self.tipo_documento_fe == "09":
-                tipo_doc_text = "Reembolso Creado Correctamente."
+                if self.tipo_documento_fe == "09":
+                    tipo_doc_text = "Reembolso Creado Correctamente."
 
-            body = tipo_doc_text
+                body = tipo_doc_text
 
-            self.message_post(body=body)
+                self.message_post(body=body)
 
-            # add QR in invoice info
-            if 'qr' in respuesta:
-                self.generate_qr(respuesta)
+                # add QR in invoice info
+                if 'qr' in respuesta:
+                    self.generate_qr(respuesta)
 
-            ##self.download_pdf(self.lastFiscalNumber, respuesta['pdf_document'])
-            if respuesta['mensaje'] == "Proceso de Anulación ejecutado con éxito.":
-                original_invoice_id.state = "cancel"
-            self.pagadoCompleto = "FECompletada"
-            # self.action_download_fe_pdf(self.lastFiscalNumber)
+                ##self.download_pdf(self.lastFiscalNumber, respuesta['pdf_document'])
+                if respuesta['mensaje'] == "Proceso de Anulación ejecutado con éxito.":
+                    original_invoice_id.state = "cancel"
+                self.pagadoCompleto = "FECompletada"
+                # self.action_download_fe_pdf(self.lastFiscalNumber)
+            else:
+                self.insert_data_to_logs(respuesta, self.name)
+                body = "Factura Electrónica No Generada:<br> <b style='color:red;'>Error " + \
+                    respuesta['codigo']+":</b> ("+respuesta['mensaje']+")<br>"
+                self.message_post(body=body)
         else:
-            self.insert_data_to_logs(respuesta, self.name)
-            body = "Factura Electrónica No Generada:<br> <b style='color:red;'>Error " + \
-                respuesta['codigo']+":</b> ("+respuesta['mensaje']+")<br>"
+            body = "Factura Electrónica No Generada:<br> <b style='color:red;'>Error:</b> (El cliente no posee un correo electrónico, por favor asegurese de ingresar este valor.)<br>"
             self.message_post(body=body)
 
     def get_array_payment_info(self):
