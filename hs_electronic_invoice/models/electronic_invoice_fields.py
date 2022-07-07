@@ -623,6 +623,7 @@ class electronic_invoice_fields(models.Model):
 
                 if item.tax_ids:
                     for tax_item in item.tax_ids:
+                        array_tax_item = []
                         if tax_item.amount_type == 'percent':
                             logging.info("VALOR DE ITMBS " +
                                          str(tax_item.amount))
