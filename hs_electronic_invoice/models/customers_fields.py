@@ -30,7 +30,7 @@ class customers_fields(models.Model):
     tipoContribuyente = fields.Selection(
         [('1', 'Natural'),
          ('2', 'Jurídico')], string='Tipo Contribuyente', compute="_compute_tipoIdent")
-    numeroRUC = fields.Char(string="Número RUC", size=20, required=True)
+    numeroRUC = fields.Char(string="Número RUC", size=20)
     digitoVerificadorRUC = fields.Char(string="Dígito Verificador RUC", size=2)
     razonSocial = fields.Char(string="Razón Social", size=100)
     direccion = fields.Char(string="Dirección", size=100)
