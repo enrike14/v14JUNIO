@@ -9,7 +9,7 @@
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
 				<xpath expr="//page[1]" position="before">
-					<page name="pageConfigEBIPAC" string="Configuración FE">
+					<page name="pageConfigEBIPAC" string="Configuración FE" autofocus="autofocus">
 						<group>
 							<group>
 								<field name="TipoClienteFE" />
