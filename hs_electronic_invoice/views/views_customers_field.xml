@@ -24,7 +24,7 @@
 							<group>
 								<field name="country_id" invisible="1" />
 								<field name="province_id" attrs="{'required':[('TipoClienteFE','in',('01', '03'))]}" />
-								<field name="district_id" attrs="{'required':[('TipoClienteFE','in',('01', '03'))]}" />
+								<field name="fe_district_id" attrs="{'required':[('TipoClienteFE','in',('01', '03'))]}" />
 								<field name="sector_id" attrs="{'required':[('TipoClienteFE','in',('01', '03'))]}" />
 								<field name="provincia" invisible="1" />
 								<field name="distrito" invisible="1" />

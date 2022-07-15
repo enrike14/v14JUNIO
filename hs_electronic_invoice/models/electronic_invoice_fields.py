@@ -26,11 +26,11 @@ _logger = logging.getLogger(__name__)
 class electronic_invoice_fields(models.Model):
     _inherit = "account.move"
     lastFiscalNumber = fields.Char(
-        string="Número Fiscal", compute="on_change_state", readonly="True", store="True")
+        string="Número Fiscal", compute="on_change_state", readonly="True", store="False")
     puntoFactFiscal = fields.Char(
         string="Punto Facturación Fiscal", readonly="True", default='')
     pagadoCompleto = fields.Char(
-        string="Estado de Pago", compute="on_change_pago", readonly="True", store="True")
+        string="Estado de Pago", compute="on_change_pago", readonly="True", store="False")
     qr_code = fields.Binary("QR Factura Electrónica",
                             attachment=True, readonly="True")
     tipo_documento_fe = fields.Selection(
@@ -159,25 +159,25 @@ class electronic_invoice_fields(models.Model):
     )
 
     reversal_reason_fe = fields.Char(
-        string='Reason', readonly="True", store="True")
-    anulado = fields.Char(string='Anulado', readonly="True", store="True")
+        string='Reason', readonly="True", store="False")
+    anulado = fields.Char(string='Anulado', readonly="True", store="False")
     nota_credito = fields.Char(
         string='Nota de Crédito', readonly="True", compute="on_change_type")
     total_precio_descuento = fields.Float(
-        string="Precio Descuento", default=0.00, store="True")
+        string="Precio Descuento", default=0.00, store="False")
     hsfeURLstr = fields.Char(
-        string='HermecURL', readonly="True", store="True")
+        string='HermecURL', readonly="True", store="False")
     pdfNumber = fields.Char(string="PDF Fiscal Number",
-                            store="True")
+                            store="False")
     tipoDocPdf = fields.Char(
-        string="PDF Tipo Documento", store="True")
+        string="PDF Tipo Documento", store="False")
     tipoEmisionPdf = fields.Char(
-        string="PDF Tipo Emisión", store="True")
+        string="PDF Tipo Emisión", store="False")
     api_token = fields.Char(string="ApiToken")
     puntoFacturacion = fields.Char(
-        string="Punto Fac", store="True", default='')
-    cafe = fields.Char(string='CAFE', readonly="True", store="True")
-    qr_pos = fields.Char(string='QR POS', readonly="True", store="True")
+        string="Punto Fac", store="False", default='')
+    cafe = fields.Char(string='CAFE', readonly="True", store="False")
+    qr_pos = fields.Char(string='QR POS', readonly="True", store="False")
 
     @api.depends('qr_code')
     def on_change_pago(self):
@@ -207,7 +207,7 @@ class electronic_invoice_fields(models.Model):
                         record.puntoFactFiscal = self.puntoFacturacion
 
                         document.numeroDocumentoFiscal = str(
-                            int(document.numeroDocumentoFiscal)+1)
+                            int(document.numeroDocumentoFiscal) + 1)
 
     @api.depends('move_type', 'partner_id')
     def on_change_type(self):
@@ -267,10 +267,10 @@ class electronic_invoice_fields(models.Model):
             self.send_fiscal_doc()
         else:
             body = "HS Services <br> <b style='color:red;'>Error -- " + \
-                ":</b> ("+str(respuesta['detail'])+")<br>"
+                ":</b> (" + str(respuesta['detail']) + ")<br>"
             self.message_post(body=body)
-            logging.info("ERROR: Connection Fail -- " +
-                         str(respuesta["detail"]))
+            logging.info("ERROR: Connection Fail -- "
+                         + str(respuesta["detail"]))
 
     def get_pdf_token(self):
         files = []
@@ -300,10 +300,10 @@ class electronic_invoice_fields(models.Model):
             self.get_pdf_fe()
         else:
             body = "HS Services <br> <b style='color:red;'>Error -- " + \
-                ":</b> ("+str(respuesta['detail'])+")<br>"
+                ":</b> (" + str(respuesta['detail']) + ")<br>"
             self.message_post(body=body)
-            logging.info("ERROR: Connection Fail -- " +
-                         str(respuesta["detail"]))
+            logging.info("ERROR: Connection Fail -- "
+                         + str(respuesta["detail"]))
 
     def send_fiscal_doc(self):
         original_invoice_values = {}
@@ -342,7 +342,7 @@ class electronic_invoice_fields(models.Model):
         if(len(self.amount_by_group) > 1):
             retencion = {
                 'codigoRetencion': "2",
-                'montoRetencion':  str('%.2f' % round((self.amount_total - self.amount_untaxed), 2))
+                'montoRetencion': str('%.2f' % round((self.amount_total - self.amount_untaxed), 2))
             }
 
         all_values = json.dumps({
@@ -392,13 +392,13 @@ class electronic_invoice_fields(models.Model):
                         self.cafe = str(respuesta['cufe'])
                         tipo_doc_text = "Factura Electrónica Creada" + \
                             " :<br> <b>CUFE:</b> (<a target='_blank' href='" + \
-                            respuesta['qr']+"'>" + \
-                            str(respuesta['cufe'])+")</a><br>"
+                            respuesta['qr'] + "'>" + \
+                            str(respuesta['cufe']) + ")</a><br>"
                         if self.tipo_documento_fe == "04":
                             tipo_doc_text = "Nota de Crédito Creada" + \
                                 " :<br> <b>CUFE:</b> (<a target='_blank' href='" + \
-                                respuesta['qr']+"'>" + \
-                                str(respuesta['cufe'])+")</a><br>"
+                                respuesta['qr'] + "'>" + \
+                                str(respuesta['cufe']) + ")</a><br>"
 
                     if self.tipo_documento_fe == "09":
                         tipo_doc_text = "Reembolso Creado Correctamente."
@@ -419,7 +419,7 @@ class electronic_invoice_fields(models.Model):
                     self.insert_data_to_logs(respuesta, self.name)
                     body = "Factura Electrónica No Generada:<br> <b style='color:red;'>Error " + \
                         respuesta['codigo'] + \
-                        ":</b> ("+respuesta['mensaje']+")<br>"
+                        ":</b> (" + respuesta['mensaje'] + ")<br>"
                     self.message_post(body=body)
             else:
                 body = "Factura Electrónica No Generada:<br> <b style='color:red;'>Error:</b> (El tipo de cliente de factura electrónica, no ha sido especificado, por favor asegurese de ingresar este valor.)<br>"
@@ -601,7 +601,7 @@ class electronic_invoice_fields(models.Model):
             'qr': res['qr'] if 'qr' in res else "",
             'invoiceNumber': invoice_number,
             'fechaRDGI': res['fechaRecepcionDGI'] if 'fechaRecepcionDGI' in res else "",
-            'numeroDocumentoFiscal':  self.lastFiscalNumber,
+            'numeroDocumentoFiscal': self.lastFiscalNumber,
             'puntoFacturacionFiscal': self.puntoFactFiscal,
         })
 
@@ -625,10 +625,10 @@ class electronic_invoice_fields(models.Model):
                     for tax_item in item.tax_ids:
                         array_tax_item = []
                         if tax_item.amount_type == 'percent':
-                            logging.info("VALOR DE ITMBS " +
-                                         str(tax_item.amount))
+                            logging.info("VALOR DE ITMBS "
+                                         + str(tax_item.amount))
                             array_tax_item.append({
-                                'amount_type':	tax_item.amount_type,
+                                'amount_type': tax_item.amount_type,
                                 'amount': tax_item.amount
                             })
                         elif tax_item.amount_type == 'group':
@@ -642,18 +642,18 @@ class electronic_invoice_fields(models.Model):
                                         'child_amount': str(child_tax_item.amount)
                                     })
                             array_tax_item.append({
-                                'amount_type':	tax_item.amount_type,
+                                'amount_type': tax_item.amount_type,
                                 'amount': tax_item.amount,
                                 'group_tax_children': array_children
                             })
                 else:
                     array_tax_item.append({
-                        'amount_type':	 'percent',
+                        'amount_type': 'percent',
                         'amount': '0'
                     })
 
-                logging.info("array_tax_item:::::::::::::" +
-                             str(array_tax_item))
+                logging.info("array_tax_item:::::::::::::"
+                             + str(array_tax_item))
                 itemLoad.append({
                     'typeCustomers': str(self.partner_id.TipoClienteFE),
                     'categoriaProducto': str(item.product_id.categoryProduct) if item.product_id.categoryProduct else "",
@@ -663,7 +663,7 @@ class electronic_invoice_fields(models.Model):
                     'cantidad': item.quantity,
                     'precioUnitario': item.price_unit,
                     'precioUnitarioDescuento': item.discount,
-                    'codigoGTIN':  str(item.product_id.codigoGTIN) if item.product_id.codigoGTIN else "",
+                    'codigoGTIN': str(item.product_id.codigoGTIN) if item.product_id.codigoGTIN else "",
                     'cantGTINCom': item.product_id.cantGTINCom if item.product_id.cantGTINCom else "",
                     'codigoGTINInv': item.product_id.codigoGTINInv if item.product_id.cantGTINCom else "",
                     'cantGTINComInv': item.product_id.cantGTINComInv if item.product_id.cantGTINComInv else "",

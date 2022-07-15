@@ -26,7 +26,7 @@ class customers_fields(models.Model):
         [('01', 'Contribuyente'),
          ('02', 'Consumidor final'),
             ('03', 'Gobierno'),
-            ('04', 'Extranjero')], string='Tipo Cliente', required=True)
+            ('04', 'Extranjero')], string='Tipo Cliente', required=False)
     tipoContribuyente = fields.Selection(
         [('1', 'Natural'),
          ('2', 'Jurídico')], string='Tipo Contribuyente', compute="_compute_tipoIdent")
@@ -40,14 +40,14 @@ class customers_fields(models.Model):
         'res.country', string='País', default=lambda self: self._get_country_id())
     province_id = fields.Many2one(
         'electronic.invoice.province', string='Provincia')
-    district_id = fields.Many2one(
+    fe_district_id = fields.Many2one(
         'electronic.invoice.district', string='Distrito')
     sector_id = fields.Many2one(
         'electronic.invoice.sector', string='Corregimiento')
     # codigo
     CodigoUbicacion = fields.Char(string="Codigo Ubicación", size=8)
     provincia = fields.Char(string="Provincia", related='province_id.code')
-    distrito = fields.Char(string="Distrito", related='district_id.code')
+    distrito = fields.Char(string="Distrito", related='fe_district_id.code')
     corregimiento = fields.Char(
         string="Corregimiento", related='sector_id.code')
     tipoIdentificacion = fields.Selection(
@@ -81,7 +81,7 @@ class customers_fields(models.Model):
     @api.onchange('province_id')
     def onchange_province_id(self):
         res = {}
-        # self.district_id=""
+        # self.fe_district_id=""
         # self.sector_id=""
 
         if self.province_id:
@@ -91,17 +91,17 @@ class customers_fields(models.Model):
 
             for district in districts:
                 ids.append(district[0])
-            res['domain'] = {'district_id': [('id', 'in', ids)]}
+            res['domain'] = {'fe_district_id': [('id', 'in', ids)]}
         self.CodigoUbicacion = str(
-            str(self.provincia)+"-"+str(self.distrito)+"-"+str(self.corregimiento))
+            str(self.provincia) + "-" + str(self.distrito) + "-" + str(self.corregimiento))
         return res
 
-    @api.onchange('district_id')
-    def onchange_district_id(self):
+    @api.onchange('fe_district_id')
+    def onchange_fe_district_id(self):
         res = {}
         # self.sector_id=""
-        if self.district_id:
-            self._cr.execute('SELECT electronic_invoice_sector.id, electronic_invoice_sector.name FROM electronic_invoice_sector WHERE electronic_invoice_sector.district_id = %s AND  electronic_invoice_sector.country_id = ( SELECT electronic_invoice_district.country_id FROM electronic_invoice_district WHERE electronic_invoice_district.id = %s) ', (self.district_id.id, self.district_id.id))
+        if self.fe_district_id:
+            self._cr.execute('SELECT electronic_invoice_sector.id, electronic_invoice_sector.name FROM electronic_invoice_sector WHERE electronic_invoice_sector.fe_district_id = %s AND  electronic_invoice_sector.country_id = ( SELECT electronic_invoice_district.country_id FROM electronic_invoice_district WHERE electronic_invoice_district.id = %s) ', (self.fe_district_id.id, self.fe_district_id.id))
             sectors = self._cr.fetchall()
             ids = []
 
@@ -109,10 +109,10 @@ class customers_fields(models.Model):
                 ids.append(sector[0])
             res['domain'] = {'sector_id': [('id', 'in', ids)]}
         self.CodigoUbicacion = str(
-            str(self.provincia)+"-"+str(self.distrito)+"-"+str(self.corregimiento))
+            str(self.provincia) + "-" + str(self.distrito) + "-" + str(self.corregimiento))
         return res
 
     @api.onchange('sector_id')
     def onchange_sector_id(self):
         self.CodigoUbicacion = str(
-            str(self.provincia)+"-"+str(self.distrito)+"-"+str(self.corregimiento))
+            str(self.provincia) + "-" + str(self.distrito) + "-" + str(self.corregimiento))
