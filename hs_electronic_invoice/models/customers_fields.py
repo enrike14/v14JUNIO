@@ -26,7 +26,7 @@ class customers_fields(models.Model):
 		[('01', 'Contribuyente'),
 		 ('02', 'Consumidor final'),
 			('03', 'Gobierno'),
-			('04', 'Extranjero')], string='Tipo Cliente', required=False)
+			('04', 'Extranjero')], string='Tipo Cliente', required=False,default=lambda self: self._get_type_client())
 	tipoContribuyente = fields.Selection(
 		[('1', 'Natural'),
 		 ('2', 'Jurídico')], string='Tipo Contribuyente', compute="_compute_tipoIdent")
@@ -119,6 +119,14 @@ class customers_fields(models.Model):
 	
 	@api.onchange('company_type')
 	def onchange_company_type_id(self):
+		if str(self.company_type) == 'person':
+			self.TipoClienteFE = '02'
+		elif str(self.company_type) == 'company':
+			self.TipoClienteFE = '01'
+		else:
+			self.tipoContribuyente = ""
+
+	def _get_type_client(self):
 		if str(self.company_type) == 'person':
 			self.TipoClienteFE = '02'
 		elif str(self.company_type) == 'company':
