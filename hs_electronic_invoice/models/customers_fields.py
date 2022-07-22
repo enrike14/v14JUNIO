@@ -70,7 +70,7 @@ class customers_fields(models.Model):
         if str(self.TipoClienteFE) == '02' or str(self.TipoClienteFE) == '04':
             self.tipoContribuyente = '1'
         else:
-            self.tipoContribuyente = ''
+            self.tipoContribuyente = False
 
     def _get_country_id(self):
         self._cr.execute(
