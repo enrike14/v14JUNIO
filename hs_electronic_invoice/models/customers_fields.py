@@ -119,9 +119,9 @@ class customers_fields(models.Model):
 	
 	@api.onchange('company_type')
 	def onchange_company_type_id(self):
-		if str(self.TipoClienteFE) == 'person':
-			self.tipoContribuyente = '02'
-		elif str(self.TipoClienteFE) == 'company':
-			self.tipoContribuyente = '01'
+		if str(self.company_type) == 'person':
+			self.TipoClienteFE = '02'
+		elif str(self.company_type) == 'company':
+			self.TipoClienteFE = '01'
 		else:
 			self.tipoContribuyente = ""
